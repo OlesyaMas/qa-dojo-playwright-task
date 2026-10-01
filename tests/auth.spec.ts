@@ -5,21 +5,20 @@ const username = () => `student-${Date.now()}`;
 
 test.describe('Registration', { tag: '@auth' }, () => {
 
-    test('successfully logs in with valid credentials', async ({ page }) => {
+    test('successfully register user with valid credentials', async ({ page }) => {
 
         await page.goto('/register');
         await page.getByLabel(/username/i).fill(username());
         await page.getByLabel(/email/i).fill(uniqueEmail());
         await page.getByTestId('auth-password').fill('ValidPassword123!');
         await page.getByTestId('register-confirm-password').fill('ValidPassword123!');
-        await page.getByText('I agree to the terms of use').click();
         await page.getByTestId('register-terms').check();
         await page.getByRole('button', { name: /Create account/i }).click();
         await expect(page.getByTestId('nav-profile')).toBeVisible();
 
     });
 
-    test('registration is not sucessfull if use existing email', async ({ page }) => {
+    test('registration is not successful if use existing email', async ({ page }) => {
         const email = uniqueEmail();
         //register new user
         await page.goto('/register');
@@ -27,7 +26,6 @@ test.describe('Registration', { tag: '@auth' }, () => {
         await page.getByLabel(/email/i).fill(email);
         await page.getByTestId('auth-password').fill('ValidPassword123!');
         await page.getByTestId('register-confirm-password').fill('ValidPassword123!');
-        await page.getByText('I agree to the terms of use').click();
         await page.getByTestId('register-terms').check();
         await page.getByRole('button', { name: /Create account/i }).click();
         await page.getByTestId('nav-profile').click();
@@ -40,7 +38,6 @@ test.describe('Registration', { tag: '@auth' }, () => {
         await page.getByLabel(/email/i).fill(email);
         await page.getByTestId('auth-password').fill('ValidPassword123!');
         await page.getByTestId('register-confirm-password').fill('ValidPassword123!');
-        await page.getByText('I agree to the terms of use').click();
         await page.getByTestId('register-terms').check();
         await page.getByRole('button', { name: /Create account/i }).click();
         await expect(page.getByText('body email або username')).toContainText('body email або username вже зайняті');
@@ -74,7 +71,6 @@ test.describe('Login', { tag: '@auth' }, () => {
         await page.getByLabel(/email/i).fill(email);
         await page.getByTestId('auth-password').fill(password);
         await page.getByTestId('register-confirm-password').fill(password);
-        await page.getByText('I agree to the terms of use').click();
         await page.getByTestId('register-terms').check();
         await page.getByRole('button', { name: /Create account/i }).click();
         await page.getByTestId('nav-profile').click();
@@ -99,7 +95,6 @@ test.describe('Login', { tag: '@auth' }, () => {
         await page.getByLabel(/email/i).fill(email);
         await page.getByTestId('auth-password').fill(password);
         await page.getByTestId('register-confirm-password').fill(password);
-        await page.getByText('I agree to the terms of use').click();
         await page.getByTestId('register-terms').check();
         await page.getByRole('button', { name: /Create account/i }).click();
         await page.getByTestId('nav-profile').click();
